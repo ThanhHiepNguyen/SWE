@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SessionStatus {
+  ACTIVE
+  ENDED
+}
+
+enum ExecutionStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  TIMEOUT
+}
+
+model CodeSession {
+  id         String        @id @default(uuid())
+  language   String
+  sourceCode String        @default("")
+  status     SessionStatus @default(ACTIVE)
+
+  executions Execution[]   // relation
+
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Execution {
+  id        String          @id @default(uuid())
+  sessionId String
+  session   CodeSession     @relation(fields: [sessionId], references: [id])
+
+  status    ExecutionStatus @default(QUEUED)
+  stdout    String?
+  stderr    String?
+
+  startedAt DateTime?
+  finishedAt DateTime?
+  executionTimeMs Int?
+
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@index([sessionId])
+  @@index([status])
+}
