@@ -15,5 +15,5 @@ RUN npx prisma generate
 
 ENV NODE_ENV=production
 
-CMD ["node", "src/index.js"]
+CMD ["sh", "-lc", "npx prisma migrate deploy && node src/index.js"]
 

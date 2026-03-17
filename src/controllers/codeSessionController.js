@@ -18,7 +18,6 @@ export async function createCodeSession(req, res, next) {
       return res.status(400).json({ message: validation.message });
     }
 
-
     const session = await prisma.codeSession.create({
       data: {
         id: crypto.randomUUID(),
@@ -36,7 +35,6 @@ export async function createCodeSession(req, res, next) {
     next(err);
   }
 }
-
 
 export async function updateCodeSession(req, res, next) {
   try {
@@ -93,7 +91,6 @@ export async function updateCodeSession(req, res, next) {
     next(err);
   }
 }
-
 
 export async function runCodeSession(req, res, next) {
   try {

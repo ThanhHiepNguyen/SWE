@@ -1,3 +1,14 @@
+node_modules/
+
+.DS_Store
+*.log
+
+# Prisma
+prisma/dev.db
+
+# Docker / temp
+runner-tmp/
+
 node_modules
 
 
